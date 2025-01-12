@@ -1,0 +1,38 @@
+services:
+  connector:
+    build:
+      context: ./connector
+    ports:
+      - "5111:5000"      
+      - "5001:5001/udp"  
+      - "5002:5002"      
+    networks:
+      - simulation-network
+
+  communicator1:
+    build:
+      context: ./communicator1
+    depends_on:
+      - connector
+    networks:
+      - simulation-network
+
+  communicator2:
+    build:
+      context: ./communicator2
+    depends_on:
+      - connector
+    networks:
+      - simulation-network
+
+  communicator3:
+    build:
+      context: ./communicator3
+    depends_on:
+      - connector
+    networks:
+      - simulation-network
+
+networks:
+  simulation-network:
+    driver: bridge

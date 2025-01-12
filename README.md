@@ -6,6 +6,26 @@ This project demonstrates how to **bridge different communication protocols** (T
 
 ## 1. Architecture Overview
 
+```
+
+┌───────────────────┐      ┌───────────────────┐      ┌─────────────────────┐
+│ Communicator 1    │      │ Communicator 2    │      │ Communicator 3      │
+│ (TCP)             │      │ (UDP)             │      │ (HTTP)              │
+│   sends TCP       │      │   sends UDP       │      │   sends POST        │
+└─────────┬─────────┘      └─────────┬─────────┘      └─────────┬───────────┘
+          │                          │                          │
+          │ TCP:5000                 │ UDP:5001                 │ HTTP:5002
+          │                          │                          │
+          ▼                          ▼                          ▼
+        ┌─────────────────────────────────────────────────────────┐
+        │                           Connector                     │
+        │          - Listens for TCP on port 5000                 │
+        │          - Listens for UDP on port 5001                 │
+        │          - Hosts a Flask app for HTTP on port 5002      │
+        └─────────────────────────────────────────────────────────┘
+
+```
+
 1. **Connector**:  
    - A Python service that listens on **TCP:5000**, **UDP:5001**, and **HTTP:5002**.  
    - Receives messages from each communicator and sends back a response.  
@@ -21,6 +41,8 @@ This project demonstrates how to **bridge different communication protocols** (T
 ## 2. Project Structure
 
 Below is the expected directory layout:
+
+```
 
 simulation_project/
 │
@@ -44,6 +66,8 @@ simulation_project/
 │
 ├── docker-compose.yml
 └── README.md
+
+```
 
 Each communicator has its own Dockerfile and Python script. The `connector` folder contains a Flask app and socket-based servers for TCP/UDP.
 
